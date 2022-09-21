@@ -135,7 +135,7 @@ def freelancer_chat_room(request):
         'myChatRooms': my_chat_room,
         'buyer': profile,
     }
-    return render(request, 'App_main/Buyer/buyer_all_chat_room.html', context=content)
+    return render(request, 'App_main/Freelancer/freelancer_all_chat_room.html', context=content)
 
 
 @login_required(login_url='App_admin:admin-login-system')

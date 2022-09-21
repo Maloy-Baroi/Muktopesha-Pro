@@ -29,8 +29,8 @@ urlpatterns = [
     # offer_id, job_id
     path('freelancer-single-chat-room/<int:roomID>/', freelancer_single_chat_room, name='freelancer-single-chat-room'),
 
-    path('getMessages/<int:roomID>/', buyer_get_messages, name='get-messages'),
-    path('send-message-freelancer/', freelacer_message_send, name='send-message-freelancer'),
+    path('freelancer-getMessages/<int:roomID>/', buyer_get_messages, name='get-messages'),
+    path('freelancer-send-message/', freelacer_message_send, name='freelancer-send-message'),
 
 
     path('first-message-from-buyer-to-sender/<int:profileID>/<int:jobID>/', 
@@ -41,8 +41,8 @@ urlpatterns = [
     path('offer-accepted-by-buyer/<int:offer_id>/<int:job_id>/', offer_accepted_by_buyer,name='offer-accepted-by-buyer'),
     path('buyer-single-chat-room/<int:roomID>/', buyer_single_chat_room, name='buyer-single-chat-room'),
 
-    path('getMessages/<int:roomID>/', buyer_get_messages, name='get-messages'),
-    path('send-message/', buyer_message_send, name='send-message'),
+    path('buyer-getMessages/<int:roomID>/', buyer_get_messages, name='get-messages'),
+    path('buyer-send-message/', buyer_message_send, name='buyer-send-message'),
     path('buyer-reviewing-submitted-product/<int:jobID>/', buyer_reviewing_submitted_product, 
         name='buyer-reviewing-submitted-product'),
     path('buyer-accepts-the-product', buyer_accepts_the_product, name='buyer-accepts-the-product'),

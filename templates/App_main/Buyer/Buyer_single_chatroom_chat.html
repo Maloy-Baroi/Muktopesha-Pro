@@ -1,6 +1,6 @@
 {% extends 'App_main/Buyer/buyerBase.html' %}
 {% load crispy_forms_filters %}
-{% block admin_base_main %}
+{% block main %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style>
         .container_content {
@@ -85,7 +85,7 @@
             </p>
         </div>
     </div>
-    <div class="container">
+    <div class="container mb-5">
         <div class="card">
             <div class="card-body">
                 <div id="displayChats">
@@ -96,7 +96,7 @@
                         setInterval(function () {
                             $.ajax({
                                 type: 'GET',
-                                url: "/admin/admin-get-messages/{{ room.id }}/",
+                                url: "/buyer-getMessages/{{ room.id }}/",
                                 success: function (response) {
                                     console.log(response);
                                     $('#displayChats').empty();
@@ -104,9 +104,9 @@
                                         console.log(response.messages[i]);
                                         let newDiv;
                                         if (you === response.messages[i].username) {
-                                            newDiv = "<div class='container my-chats'><b>Admin</b><p>" + response.messages[i].value + "</p>";
+                                            newDiv = "<div class='container my-chats'><b>Myself</b><p>" + response.messages[i].value + "</p>";
                                         } else {
-                                            newDiv = "<div class='container friend-chats'><b>" + response.messages[i].username + "</b><p>" + response.messages[i].value + "</p>";
+                                            newDiv = "<div class='container friend-chats'><b>Freelancer</b><p>" + response.messages[i].value + "</p>";
                                         }
                                         $('#displayChats').append(newDiv);
                                     }
@@ -137,10 +137,10 @@
                         e.preventDefault()
                         $.ajax({
                             type: 'POST',
-                            url: '/admin/admin-response-message/',
+                            url: '/buyer-send-message/',
                             data: {
                                 username: $('#username').val(),
-                                room_name: $('#room_id').val(),
+                                room_id: $('#room_id').val(),
                                 message: $('#message').val(),
                                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
                             },

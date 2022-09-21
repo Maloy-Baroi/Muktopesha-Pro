@@ -1,0 +1,47 @@
+{% extends 'App_main/Buyer/buyerBase.html' %}
+{% load static %}
+{% block title %}
+    All Freelancer
+{% endblock %}
+{% block main %}
+    <style>
+        .navbar {
+            height: 85px !important;
+            margin-bottom: 100px !important;
+        }
+        
+        .card img {
+            width: 100%;
+            height: 177px;
+        }
+
+        .card-text {
+            color: gray;
+        }
+    </style>
+    <div class="container mt-5 mb-5">
+        {% for freelancer in freelancers %}
+            <div class="card" style="width: 18rem;">
+                <img src="{{ freelancer.profile_picture.url }}" class="card-img-top" alt="Profile Picture">
+                <div class="card-body">
+                <h5 class="card-title">
+                    {{ freelancer.full_name }}
+                    <br>
+                    <small style="color: #fb246a; font-size: 12px;">{{ freelancer.what_you_are }}</small>
+                </h5>
+                <p class="card-text" title="{{ freelancer.description }}">
+                    {{ freelancer.description|truncatewords:20 }}
+                </p>
+                <hr style="width: 100%; margin: 0;">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <i class="fa fa-star" style="color: #fb246a; font-size: 14px; float: right;">
+                            {{ freelancer.stars }}
+                        </i>
+                    </li>
+                </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

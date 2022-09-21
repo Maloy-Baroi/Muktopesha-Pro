@@ -1,0 +1,194 @@
+{% extends 'App_main/Buyer/buyerBase.html' %}
+{% block title %}
+    All Jobs
+{% endblock %}
+{% block main %}
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    body {
+        background-image: url("{{ profile.cover_image.url }}");
+    }
+
+    .navbar {
+        height: 85px !important;
+    }
+
+    #full-profile-container {
+        margin: 50px auto;
+    }
+
+    .progress-bar {
+        background-color: #fb246a !important;
+    }
+
+    .text-muted {
+        color: #ff5e92 !important;
+    }
+</style>
+<section style="background-color: #eee;">
+    <div class="container py-5"> 
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <img src="{{ profile.profile_picture.url }}" alt="avatar"
+                class="rounded-circle img-fluid" style="width: 150px;">
+              <h5 class="my-3">{{ profile.full_name }}</h5>
+              <p class="text-dark mb-1">{{ profile.what_you_are }}</p>
+              <p class="text-dark mb-4">Freelancer of Muktopesha</p>
+            </div>
+          </div>
+          <div class="card mb-4 mb-lg-0">
+            <div class="card-body p-0">
+              <ul class="list-group list-group-flush rounded-3">
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="fa fa-calendar text-warning"></i>
+                  <p class="mb-0">
+                    <b>
+                        Member Since: {{ profile.member_since }}
+                    </b>
+                </p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="fa fa-star fa-lg" style="color: #333333;"></i>
+                  <p class="mb-0">
+                    <b>
+                        Stars: {{ profile.stars }}
+                    </b>
+                  </p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="fa fa-toggle-on fa-lg" style="color: #ac2bac;"></i>
+                  <p class="mb-0">
+                    <b>
+                        Activity Status: {{ profile.activity_status }}
+                    </b>
+                  </p>
+                </li>
+                <a class="w-100 text-white btn btn-success mt-3 mb-3" 
+                    href="{% url 'App_main:first-message-from-buyer-to-sender' profileID=profile.id jobID=job_id %}">
+                    Message
+                </a>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Full Name</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ profile.full_name }}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Email</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ profile.user.username }}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Mobile</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ profile.phone_number }}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Bkash Number</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ profile.Bkash_number }}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Address</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ profile.address }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card mb-4 mb-md-0">
+                <div class="card-body">
+                  <p class="mb-4">
+                    <span class="text-primary font-italic me-1">
+                        Skill Level
+                    </span>
+                  </p>
+                  {% for skill in skills %}
+                    <p class="mb-1" style="font-size: .77rem;">{{ skill.title }}</p>
+                    <div class="progress rounded" style="height: 5px;">
+                        {% if skill.skill_level == 'Beginner' %}
+                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                        {% elif skill.skill_level == 'Intermediate' %}
+                            <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="75"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                        {% elif skill.skill_level == 'Expart' %}
+                            <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                        {% endif %}
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card mb-4 mb-md-0">
+                <div class="card-body">
+                  <p class="mb-4">
+                    <span class="text-primary font-italic me-1">
+                        Languages
+                    </span>
+                  </p>
+                  {% if languages %}
+                    {% for language in languages %}
+                    <p class="mb-1" style="font-size: .77rem;">{{ language.laguage_name }}</p>
+                    <div class="progress rounded" style="height: 5px;">
+                        {% if language.language_level == 'Beginner' %}
+                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                        {% elif language.language_level == 'Good For work' %}
+                            <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="75"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                        {% elif language.language_level == 'Native' %}
+                            <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4 p-2">
+            <div class="alert alert-primary" role="alert">
+              <h4 class="alert-heading">Description</h4>
+              <p>Freelancer Bio</p>
+              <hr>
+              <p class="mb-0">{{ profile.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endblock %}

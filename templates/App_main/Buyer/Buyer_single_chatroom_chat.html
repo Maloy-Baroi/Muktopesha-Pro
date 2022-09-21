@@ -1,0 +1,175 @@
+{% extends 'App_main/Buyer/buyerBase.html' %}
+{% load crispy_forms_filters %}
+{% block admin_base_main %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        .container_content {
+            margin: 10px 50px;
+        }
+
+        @media screen and (max-width: 720px) {
+            .container_content {
+                margin: 10px 20px;
+            }
+        }
+
+        #display {
+            height: 427px;
+            overflow: scroll;
+        }
+
+        @media only screen and (max-width: 720px) {
+            #display {
+                height: 300px;
+                overflow: scroll;
+            }
+        }
+
+        .darker {
+            border-color: #ccc;
+            background-color: #ddd;
+        }
+
+        .container::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .container img {
+            float: left;
+            max-width: 60px;
+            width: 100%;
+            margin-right: 20px;
+            border-radius: 50%;
+        }
+
+        .container img.right {
+            float: right;
+            margin-left: 20px;
+            margin-right: 0;
+        }
+
+        .time-right {
+            float: right;
+            color: #aaa;
+        }
+
+        .time-left {
+            float: left;
+            color: #999;
+        }
+
+        .my-chats {
+            text-align: right !important;
+        }
+
+        .my-chats b, p {
+            color: #000000;
+        }
+
+        .friend-chats {
+            text-align: left !important;
+        }
+
+        .friend-chats b, p {
+            color: #000000;
+        }
+    </style>
+    <div class="main__inner container_content">
+        <div class="content">
+            <p>
+                <span style="font-size: 20px">
+                    See Chat Rooms
+                </span>
+            </p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div id="displayChats">
+                </div>
+                <script>
+                    let you = `{{ request.user.username }}`;
+                    $(document).ready(function () {
+                        setInterval(function () {
+                            $.ajax({
+                                type: 'GET',
+                                url: "/admin/admin-get-messages/{{ room.id }}/",
+                                success: function (response) {
+                                    console.log(response);
+                                    $('#displayChats').empty();
+                                    for (let i in response.messages) {
+                                        console.log(response.messages[i]);
+                                        let newDiv;
+                                        if (you === response.messages[i].username) {
+                                            newDiv = "<div class='container my-chats'><b>Admin</b><p>" + response.messages[i].value + "</p>";
+                                        } else {
+                                            newDiv = "<div class='container friend-chats'><b>" + response.messages[i].username + "</b><p>" + response.messages[i].value + "</p>";
+                                        }
+                                        $('#displayChats').append(newDiv);
+                                    }
+                                },
+                                error: function (err) {
+                                    console.log("-------------Error------------");
+                                }
+                            });
+                        }, 2000);
+                    })
+                </script>
+            </div>
+            <div class="card-footer justify-content-end">
+                <form id="message-post-form">
+                    {% csrf_token %}
+                    <div class="d-sm-flex">
+                        <input type="hidden" name="username" id="username" value="{{ request.user.username }}">
+                        <input type="hidden" name="room_id" id="room_id" value="{{ room.name }}">
+                        <textarea class="form-control mb-sm-0 mb-3" name="message" id="message" data-autoresize=""
+                                  placeholder="Type a message" rows="1" cols="100"></textarea>
+                        <button class="btn btn-sm btn-primary ms-2 mt-1 mb-1 mr-1 ml-3" type="submit">
+                            <i class="fa fa-solid fa-paper-plane fs-6"></i>
+                        </button>
+                    </div>
+                </form>
+                <script type="text/javascript">
+                    $(document).on('submit', "#message-post-form", function (e) {
+                        e.preventDefault()
+                        $.ajax({
+                            type: 'POST',
+                            url: '/admin/admin-response-message/',
+                            data: {
+                                username: $('#username').val(),
+                                room_name: $('#room_id').val(),
+                                message: $('#message').val(),
+                                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                            },
+                            success: function (data) {
+                            },
+                        });
+                        document.getElementById('message').value = '';
+                    })
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let closer = 0;
+        let createUserForm = document.getElementById('id-createuser-form');
+
+        function createUserFormOpener() {
+            if (closer === 0) {
+                createUserForm.style.display = 'block';
+                closer = 1;
+            } else {
+                createUserForm.style.display = 'none';
+                closer = 0;
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block active_script %}
+    messages.classList.add('mm-active')
+{% endblock %}

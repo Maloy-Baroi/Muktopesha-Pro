@@ -1,0 +1,46 @@
+{% extends 'App_main/Buyer/buyerBase.html' %}
+{% block title %}
+    All Jobs
+{% endblock %}
+{% block main %}
+{% load static %}
+<style>
+    .navbar {
+        height: 85px !important;
+        margin-bottom: 100px !important;
+    }
+
+    .chatboxCard {
+        width: 100%;
+        color: #28395a;
+    }
+
+    .chatboxCard:hover {
+        box-shadow: 10px 10px 10px #fb246a;
+        cursor: pointer;
+    }
+
+    .chatboxCard:hover card-body p, h4 {
+        color: #fb246a;
+    }
+</style>
+<div class="container mb-5">
+    <div class="row">
+        {% for room in myChatRooms %}
+            <div class="col-md-6">
+                <div class="card chatboxCard" 
+                    onclick="window.location.href='{% url "App_main:buyer-single-chat-room" roomID=room.id %}'">
+                    <img src="{{ profile.profile_picture.url }}" class="card-img-top" 
+                        alt="{{ profile.full_name }}">
+                    <div class="card-body">
+                        <p>Room Name:</p>
+                        <h4 class="card-text">
+                            "{{ room.name }}"
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

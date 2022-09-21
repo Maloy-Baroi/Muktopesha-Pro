@@ -1,0 +1,159 @@
+{% extends 'App_main/Freelancer/freelancerBase.html' %}
+{% block title %}
+    All Jobs
+{% endblock %}
+{% block main %}
+{% load static %}
+    <style>
+        .navbar {
+            height: 85px !important;
+        }
+        
+        table {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            margin: 50px auto;
+            padding: 0;
+            width: 100%;
+            table-layout: fixed;
+          }
+          
+          table tr {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: .35em;
+          }
+          
+          table th,
+          table td {
+            padding: .625em;
+            text-align: center;
+            font-size: 14px;
+          }
+          
+          table th {
+            font-size: .60em;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+          }
+          
+          @media screen and (max-width: 600px) {
+            table {
+              border: 0;
+            }
+          
+            table caption {
+              font-size: 1.3em;
+            }
+            
+            table thead {
+              border: none;
+              clip: rect(0 0 0 0);
+              height: 1px;
+              margin: -1px;
+              overflow: hidden;
+              padding: 0;
+              position: absolute;
+              width: 1px;
+            }
+            
+            table tr {
+              border-bottom: 3px solid #ddd;
+              display: block;
+              margin-bottom: .625em;
+            }
+            
+            table td {
+              border-bottom: 1px solid #ddd;
+              display: block;
+              font-size: .8em;
+              text-align: right;
+            }
+            
+            table td::before {
+              /*
+              * aria-label has no advantage, it won't be read inside a table
+              content: attr(aria-label);
+              */
+              content: attr(data-label);
+              float: left;
+              font-weight: bold;
+              text-transform: uppercase;
+            }
+            
+            table td:last-child {
+              border-bottom: 0;
+            }
+          }
+
+          .btn-send-offer {
+            background-color: #35fbff;
+            border-radius: 0;
+          }
+
+          .offer-form {
+            display: none;
+          }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <div class="container">
+        <div class="container" id="table_container">
+            <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Date of Publish</th>
+                    <th scope="col">Date of Application</th>
+                    <th scope="col">Buyer</th>
+                    <th scope="col">Work Title</th>
+                    <th scope="col">Payment</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Submission</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for offer in offfers %} 
+                        <tr>
+                            <td data-label="Date of Publish">
+                                {{ offer.job.created_at.date }}
+                            </td>
+                            <td data-label="Date of Apllication">
+                                {{ offer.job.created_at.date }} <br>
+                                {{ offer.job.created_at.time }}
+                            </td>
+                            <td data-label="Buyer">
+                                {{ offer.job.author }}
+                            </td>
+                            <td data-label="Work Title">
+                              {{ offer.job.job_title }}
+                            </td>
+                            <td data-label="Payment">
+                                ${{ offer.job.budget }}
+                            </td>
+                            <td data-label="Action">
+                                {% if offer.offer_status == 'Approved' %}
+                                  {{ offer.job.status }}
+                                {% elif offer.offer_status == 'Rejected' %}
+                                  Your offer has been rejected.
+                                {% else %}
+                                  Offer is not approved yet.
+                                {% endif %}
+                            </td>
+                            <td data-label="Submission">
+                              {% if offer.offer_status == 'Approved' %}
+                                {% if offer.job.status == 'Submitted' or offer.job.status == 'Completed' %}
+                                
+                                {% else %}
+                                  <a href="{% url 'App_main:product-submission' jobID=offer.job.id %}">
+                                    Completed
+                                  </a>
+                                {% endif %}
+                              {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+{% endblock %}
+

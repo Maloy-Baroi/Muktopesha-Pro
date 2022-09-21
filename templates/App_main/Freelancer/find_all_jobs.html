@@ -1,0 +1,180 @@
+{% extends 'App_main/Freelancer/freelancerBase.html' %}
+{% block title %}
+    All Jobs
+{% endblock %}
+{% block main %}
+{% load static %}
+    <style>
+      .navbar {
+        height: 85px !important;
+      }
+
+    table {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+        margin: 50px auto;
+        padding: 0;
+        width: 100%;
+        table-layout: fixed;
+      }
+      
+      table tr {
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        padding: .35em;
+      }
+      
+      table th,
+      table td {
+        padding: .625em;
+        text-align: center;
+        font-size: 14px;
+      }
+      
+      table th {
+        font-size: .60em;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+      }
+      
+      @media screen and (max-width: 600px) {
+        table {
+          border: 0;
+        }
+      
+        table caption {
+          font-size: 1.3em;
+        }
+        
+        table thead {
+          border: none;
+          clip: rect(0 0 0 0);
+          height: 1px;
+          margin: -1px;
+          overflow: hidden;
+          padding: 0;
+          position: absolute;
+          width: 1px;
+        }
+        
+        table tr {
+          border-bottom: 3px solid #ddd;
+          display: block;
+          margin-bottom: .625em;
+        }
+        
+        table td {
+          border-bottom: 1px solid #ddd;
+          display: block;
+          font-size: .8em;
+          text-align: right;
+        }
+        
+        table td::before {
+          /*
+          * aria-label has no advantage, it won't be read inside a table
+          content: attr(aria-label);
+          */
+          content: attr(data-label);
+          float: left;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+        
+        table td:last-child {
+          border-bottom: 0;
+        }
+      }
+
+      .btn-send-offer {
+        background-color: #35fbff;
+        border-radius: 0;
+      }
+
+      .offer-form {
+        display: none;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <div class="container">
+        <div class="container" id="table_container">
+            <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Date of Publish</th>
+                    <th scope="col">Buyer</th>
+                    <th scope="col">Work Description</th>
+                    <th scope="col">Expair at</th>
+                    <th scope="col">Budget</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for job in jobList %} 
+                        <tr>
+                            <td data-label="Date of Publish">
+                                {{ job.created_at.date }}
+                            </td>
+                            <td data-label="Buyer">
+                                {{ job.author }}
+                            </td>
+                            <td data-label="Work Description">
+                              {{ job.work_description|truncatewords:20 }}
+                            </td>
+                            <td data-label="Expair at">
+                                {{ job.validate_until.date }}
+                            </td>
+                            <td data-label="Budget">
+                                ${{ job.budget }}
+                            </td>
+                            <td data-label="Action">
+                                <span id="send-button-carrier-{{ job.id }}">
+                                  {% if job in all_my_offer_I_sent %}
+                                    Already sent
+                                  {% else %}
+                                    <button class="btn btn-send-offer" data-bs-toggle="modal" data-bs-target="#sendOffer_{{ job.id }}">
+                                      Send Offer
+                                    </button>
+                                  {% endif %}
+                              </span>
+                            </td>
+                        </tr>
+                        <!-- Modal -->
+                        <div class="modal fade" id="sendOffer_{{ job.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">{{ job.job_title }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <form class="form-group offer-form" method="post" id="offer-form-{{ job.id }}" 
+                                    action="{% url 'App_main:apply-job' id=job.id %}">
+                                <div class="modal-body">
+                                      {% csrf_token %}
+                                      <div class="mb-3">
+                                        <article>
+                                          {{ job.work_description }}
+                                        </article>
+                                        <label for="id-offer-text-{{ job.id }}" class="form-label">
+                                            Additional Proposal
+                                        </label>
+                                        <input type="text" class="form-control" name="offer-text" 
+                                            id="id-offer-text-{{ job.id }}" aria-describedby="helpId" placeholder="Write some offer text">
+                                        <small id="helpId" class="form-text text-muted">It is not mantatory</small>
+                                      </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <button type="submit" class="btn btn-primary">Apply</button>
+                                </div>
+                            </form>
+                            </div>
+                          </div>
+                        </div>
+                    {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+{% endblock %}
+

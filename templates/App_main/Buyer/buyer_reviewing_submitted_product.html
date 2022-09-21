@@ -1,0 +1,259 @@
+{% extends 'App_main/Buyer/buyerBase.html' %}
+{% block title %}
+    All Jobs
+{% endblock %}
+{% block main %}
+{% load static %}
+<style>
+    .navbar {
+        height: 85px !important;
+        margin-bottom: 100px !important;
+    }
+
+    .single-job-items .job-tittle a h4 {
+        color: #28395a;
+        font-size: 24px;
+        -webkit-transition: .4s;
+        -moz-transition: .4s;
+        -o-transition: .4s;
+        transition: .4s;
+    }
+
+    .small-section-tittle h4 {
+        color: #28395a;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    .post-details2 ul li {
+        list-style-type: circle;
+    }
+    table {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+        margin: 50px auto;
+        padding: 0;
+        width: 100%;
+        table-layout: fixed;
+        }
+        
+        table tr {
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        padding: .35em;
+        }
+        
+        table th,
+        table td {
+        padding: .625em;
+        text-align: center;
+        font-size: 14px;
+        }
+        
+        table th {
+        font-size: .60em;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        }
+        
+        @media screen and (max-width: 600px) {
+        table {
+            border: 0;
+        }
+        
+        table caption {
+            font-size: 1.3em;
+        }
+        
+        table thead {
+            border: none;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+        
+        table tr {
+            border-bottom: 3px solid #ddd;
+            display: block;
+            margin-bottom: .625em;
+        }
+        
+        table td {
+            border-bottom: 1px solid #ddd;
+            display: block;
+            font-size: .8em;
+            text-align: right;
+        }
+        
+        table td::before {
+            /*
+            * aria-label has no advantage, it won't be read inside a table
+            content: attr(aria-label);
+            */
+            content: attr(data-label);
+            float: left;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        table td:last-child {
+            border-bottom: 0;
+        }
+        }
+
+        .btn-send-offer {
+        background-color: #35fbff;
+        border-radius: 0;
+        }
+
+        .offer-form {
+        display: none;
+        }
+
+    .post-details3 {
+    padding: 30px 30px 30px 30px;
+    border: 1px solid #ededed;
+    }
+
+    .job-tittle a h4:hover {
+        color: #fb246a;
+    }
+
+    .submitted-work p strong {
+        margin: 20px 50px; 
+    }
+
+    form {
+        margin: 100px 0;
+        padding: 20px;
+        border: 1px solid #ccc;
+    }
+
+    form textarea {
+        height: 150px;
+    }
+</style>
+<div class="job-post-company pt-120 pb-120">
+    <div class="container">
+        <div class="row justify-content-between">
+            <!-- Left Content -->
+            <div class="col-xl-7 col-lg-8">
+                <!-- job single -->
+                <div class="single-job-items mb-50">
+                    <div class="job-items">
+                        <div class="job-tittle text-center">
+                            <a href="#" style="text-decoration: none;">
+                                <h4>{{ job.job_title }}</h4>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                  <!-- job single End -->
+               
+                <div class="job-post-details">
+                    <div class="post-details1 mb-50">
+                        <!-- Small Section Tittle -->
+                        <div class="small-section-tittle">
+                            <h4>Job Description</h4>
+                        </div>
+                        <p>{{ job.work_description }}</p>
+                    </div>
+                    <div class="post-details2  mb-50">
+                         <!-- Small Section Tittle -->
+                        <div class="small-section-tittle">
+                            <h4>Required Knowledge, Skills, and Abilities</h4>
+                        </div>
+                       <article>
+                        {{ job.required_skills }}
+                       </article>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Right Content -->
+            <div class="col-xl-4 col-lg-4">
+                <div class="post-details3  mb-50">
+                    <!-- Small Section Tittle -->
+                   <div class="small-section-tittle">
+                       <h4>Job Overview</h4>
+                   </div>
+                  <ul>
+                      <li>Posted date : <span>{{ job.created_at.date }}</span></li>
+                      <li>Freelancer : <span>{{ job.stars_needed }} Star</span></li>
+                      <li>Category :  <span>{{ job.sub_category.category.name }}</span></li>
+                      <li>Submitted Budget : <span>${{ job.budget }}</span></li>
+                  </ul>
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="container mb-5">
+    <div class="container" id="table_container">
+        <legend class="text-center text-danger text-bold">
+            Submitted Work
+        </legend>
+        <div class="submitted-work">
+            <h3>
+                {{ profile.full_name }} has submitted the Drive Link and to check the submmited work.
+            </h3>
+            <p>
+                <strong>
+                    <a class="google-drive-link" href="{{ submitted_product.drive_link}}" target="_blank">
+                        <img src="{% static 'images/drive.png' %}" alt="Drive Image" width="200" height="200">
+                        <span>Drive</span>
+                    </a>
+                </strong>
+                <strong>
+                    <a class="google-drive-link" href="{{ submitted_product.files.url}}" target="_blank" download>
+                        <img src="{% static 'images/folders.png' %}" alt="Folder Image" width="200" height="200">
+                        <span>Direct File</span>
+                    </a>
+                </strong>
+            </p>
+            <form action="{% url 'App_main:buyer-accepts-the-product' %}" method="post">
+                {% csrf_token %}
+                <legend class="text-center">
+                    Work Acceptance & Feedback 
+                </legend>
+                <textarea name="feedback" class="form-control" placeholder="Please write your feedback"></textarea>
+                <br>
+                <h5>Stars You want to give on this work.</h5>
+                <label>
+                    <input type="radio" name="star" value="1"> 1 
+                </label>
+                <label>
+                    <input type="radio" name="star" value="2"> 2 
+                </label>
+                <label>
+                    <input type="radio" name="star" value="3"> 3 
+                </label>
+                <label>
+                    <input type="radio" name="star" value="4"> 4 
+                </label>
+                <label>
+                    <input type="radio" name="star" value="5"> 5 
+                </label>
+                <input type="hidden" name="jobID" value={{ job.id }}>
+                <input type="hidden" name="profileID" value="{{ profile.id }}">
+                <div class="form-group mt-3">
+                    <button class="btn btn-success w-100" type="submit">
+                        I am accepting the work.
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+{% endblock %}

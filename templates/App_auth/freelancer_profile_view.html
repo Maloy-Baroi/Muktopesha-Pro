@@ -1,0 +1,299 @@
+{% extends 'App_main/Freelancer/freelancerBase.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% block title %}
+Profile
+{% endblock %}
+{% block main %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    body {
+        background-image: url("{{ profile.cover_image.url }}");
+    }
+
+    .navbar {
+        height: 85px !important;
+    }
+
+    #full-profile-container {
+        margin: 50px auto;
+    }
+
+    .progress-bar {
+        background-color: #fb246a !important;
+    }
+
+    .text-muted {
+        color: #ff5e92 !important;
+    }
+</style>
+<section style="background-color: #eee;">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col">
+          <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item">
+                <a href="{% url 'App_main:freelancer-home' %}" style="color: #000; text-decoration: none;">
+                    Home
+                </a>
+            </li>
+              <li class="breadcrumb-item">Freelancer</li>
+              <li class="breadcrumb-item active text-decoration-underline" style="color: #fb246a;" 
+                aria-current="page">
+                User Profile
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <img src="{{ profile.profile_picture.url }}" alt="avatar"
+                class="rounded-circle img-fluid" style="width: 150px;">
+              <h5 class="my-3">{{ profile.full_name }}</h5>
+              <p class="text-dark mb-1">{{ profile.what_you_are }}</p>
+              <p class="text-dark mb-2">Freelancer of Muktopesha</p>
+              <p class="text-dark mb-4">Till you have earned: ${{ total_earned_by_user }}</p>
+              {% if total_earned_by_user > 200 %}
+                <a href="#" class="btn btn-warning">Withdraw Money</a>
+              {% else %}
+              {% endif %}
+            </div>
+          </div>
+          <div class="card mb-4 mb-lg-0">
+            <div class="card-body p-0">
+              <ul class="list-group list-group-flush rounded-3">
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="fa fa-calendar text-warning"></i>
+                  <p class="mb-0">
+                    <b>
+                        Member Since: {{ profile.member_since }}
+                    </b>
+                </p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="fa fa-star fa-lg" style="color: #333333;"></i>
+                  <p class="mb-0">
+                    <b>
+                        Stars: {{ profile.stars }}
+                    </b>
+                  </p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="fa fa-birthday-cake" style="color: #55acee;"></i>
+                  <p class="mb-0">
+                    <b>
+                        Date of Birth: {{ profile.Date_of_Birth }}
+                    </b>
+                  </p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="fa fa-toggle-on fa-lg" style="color: #ac2bac;"></i>
+                  <p class="mb-0">
+                    <b>
+                        Activity Status: {{ profile.activity_status }}
+                    </b>
+                  </p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="fa fa-tasks fa-lg" style="color: #ac2bac;"></i>
+                  <p class="mb-0">
+                    <a href='{% url "App_main:all-you-applied-as-freelancer" %}'>
+                      All You Applied
+                    </a>
+                  </p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="fa fa-tasks fa-lg" style="color: #ac2bac;"></i>
+                  <p class="mb-0">
+                    <a href='{% url "App_main:freelancer-chat-rooms" %}'>
+                      All ChatRooms
+                    </a>
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Full Name</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ profile.full_name }}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Email</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ request.user }}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Mobile</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ profile.phone_number }}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Bkash Number</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ profile.Bkash_number }}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Address</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ profile.address }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card mb-4 mb-md-0">
+                <div class="card-body">
+                  <p class="mb-4">
+                    <span class="text-primary font-italic me-1">
+                        Skill Level
+                    </span>
+                    <span class="text-primary font-italic justify-content-center">
+                        <button class="btn btn-outline-success" data-bs-toggle="modal" 
+                        data-bs-target="#exampleModal" onclick="skillFormOpen()">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </span>
+                  </p>
+                  {% for skill in skills %}
+                    <p class="mb-1" style="font-size: .77rem;">{{ skill.title }}</p>
+                    <div class="progress rounded" style="height: 5px;">
+                        {% if skill.skill_level == 'Beginner' %}
+                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                        {% elif skill.skill_level == 'Intermediate' %}
+                            <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="75"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                        {% elif skill.skill_level == 'Expart' %}
+                            <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                        {% endif %}
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card mb-4 mb-md-0">
+                <div class="card-body">
+                  <p class="mb-4">
+                    <span class="text-primary font-italic me-1">
+                        Languages
+                    </span>
+                    <span class="text-primary font-italic justify-content-center">
+                        <button class="btn btn-outline-success" 
+                            data-bs-toggle="modal" data-bs-target="#exampleModal"
+                            onclick="languageFormOpen()">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </span>
+                  </p>
+                  {% if languages %}
+                    {% for language in languages %}
+                    <p class="mb-1" style="font-size: .77rem;">{{ language.laguage_name }}</p>
+                    <div class="progress rounded" style="height: 5px;">
+                        {% if language.language_level == 'Beginner' %}
+                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                        {% elif language.language_level == 'Good For work' %}
+                            <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="75"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                        {% elif language.language_level == 'Native' %}
+                            <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4 p-2">
+            <div class="alert alert-primary" role="alert">
+              <h4 class="alert-heading">Description</h4>
+              <p>Your Bio</p>
+              <hr>
+              <p class="mb-0">{{ profile.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" id="id-skill-form" action="{% url 'App_auth:add-new-skill' %}"
+                      style="display: none;">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        <fieldset class="form-group" id="id-skill-form">
+                            <legend style="text-align: center;">Add Skill</legend>
+                            {{ add_skills__form|crispy }}
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            <form method="post" id="id-language-form" action="{% url 'App_auth:add-new-language' %}"
+                  style="display: none;">
+                <div class="modal-body">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend style="text-align: center;">Add Language</legend>
+                        {{ add_language__form|crispy }}
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        let langForm = document.getElementById('id-language-form');
+        let skillForm = document.getElementById('id-skill-form');
+
+        const languageFormOpen = () => {
+            langForm.style.display = 'block';
+            skillForm.style.display = 'none';
+        }
+
+        const skillFormOpen = () => {
+            langForm.style.display = 'none';
+            skillForm.style.display = 'block';
+        }
+    </script>
+{% endblock %}

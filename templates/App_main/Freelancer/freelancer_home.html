@@ -1,0 +1,222 @@
+{% extends 'App_main/Freelancer/freelancerBase.html' %}
+{% block title %}
+    Home
+{% endblock %}
+{% block main %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/home-page.css' %}">
+    {% include 'styles/home_style.html' %}
+    <div class="container-fluid" id="id_caption">
+        <div class="container caption">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 class="caption-header" id="id_caption_header">
+
+                    </h1>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+        </div>
+        <div class="container search-container">
+            <form id="job-main-form" method="get" action="#" class="search-jobs-form">
+                <div class="row mb-5">
+                    <div class="col-md-5">
+                        <input type="text" id="title" name="title" class="form-control form-control-lg"
+                               placeholder="Find Job / Freelancer">
+                    </div>
+                    <div class="col-md-5">
+                        <input type="text" id="job_location" name="job_location" class="form-control form-control-lg"
+                               placeholder="Dhaka, Bangladesh">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block text-white btn-search"><span
+                                class="icon-search icon mr-2"></span>Search Job
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container element-distance">
+        <!-- Section Tittle -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-tittle text-center">
+                    <span>FEATURED TOURS Packages</span>
+                    <h2>Browse Top Categories </h2>
+                </div>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-4 g-4 my-5">
+            {% for category in skill_categories %}
+                <div class="col">
+                    <div class="card h-100 basic_border">
+                        <img src="{{ category.logo.url }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ category.categoryName }}</h5>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- More Btn -->
+        <!-- Section Button -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="browse-btn2 text-center mt-50">
+                    <a href="#" class="border-btn2 liquidbg">Browse All Sectors</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container element-distance">
+        <!-- Section Tittle -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-tittle text-center">
+                    <span>Recent Profile</span>
+                    <h2>Best Freelancers</h2>
+                </div>
+            </div>
+        </div>
+        
+        {% for freelancer in best_freelancer %}
+            <div class="row justify-content-center">
+                <div class="col-xl-10">
+                    <!-- single-job-content -->
+                    <div class="single-job-items mb-30">
+                        <div class="job-items">
+                            <div class="company-img">
+                                <a href="job_details.html">
+                                    <img class="freelancer-img" src="{{ freelancer.profile_picture.url }}" alt="">
+                                </a>
+                            </div>
+                            <div class="job-tittle">
+                                <a href="#">
+                                    <h4>{{ freelancer.full_name }}</h4>
+                                </a>
+                                <ul>
+                                    <li>{{ freelancer.what_you_are }}</li>
+                                    <li>
+                                        <i class="fa fa-star"></i>:
+                                        {{ freelancer.stars }}
+                                    </li>
+                                    <li>Total Order Completed</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="apply-process-area apply-bg pt-120 pb-150 mb-5" data-background="{% static "images/how-applybg.png" %}"
+         style="background-image: url('{% static "images/how-applybg.png" %}');">
+        <div class="container">
+            <!-- Section Tittle -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-tittle white-text text-center work-process">
+                        <span>Working process</span>
+                        <h2> How it works</h2>
+                    </div>
+                </div>
+            </div>
+            <!-- Apply Process Caption -->
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-process text-center mb-30">
+                        <div class="process-ion">
+                            <i class="fa fa-search"></i>
+                        </div>
+                        <div class="process-cap">
+                            <h5>1. Search a job</h5>
+                            <p>Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod tempor incididunt ut
+                                laborea.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-process text-center mb-30">
+                        <div class="process-ion">
+                            <span class="flaticon-curriculum-vitae"></span>
+                        </div>
+                        <div class="process-cap">
+                            <h5>2. Get you Job</h5>
+                            <p>Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod tempor incididunt ut
+                                laborea.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-process text-center mb-30">
+                        <div class="process-ion">
+                            <span class="flaticon-tour"></span>
+                        </div>
+                        <div class="process-cap">
+                            <h5>3. Get your Payment</h5>
+                            <p>Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod tempor incididunt ut
+                                laborea.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let caption = document.getElementById('id_caption');
+        let caption_header = document.getElementById('id_caption_header');
+
+        var images = [
+            "{% static 'images/slider4.jpg' %}",
+            "{% static 'images/slider6_1.jpg' %}",
+            "{% static 'images/slider5_1.jpg' %}"
+        ];
+
+        var captionText = [
+            "Many of people use Muktopesha to turn their ideas into reality.",
+            "Get Hired by the best buyers for any job, online.",
+            "Hire the best freelancers for any job, online."
+        ];
+
+        var index = 0;
+        var iterations = 0;
+
+        var updateImage = function () {
+            /* reset index to zero if current index is greater than number of images.
+             * increment iterations variable since it means we've done one whole loop.
+             */
+            if (index >= images.length) {
+                index = 0;
+                iterations++;
+            }
+
+            // set the background image
+            caption.style.backgroundImage = 'url(' + images[index] + ')';
+            caption.style.transitionDuration = '2s';
+            caption_header.innerText = captionText[index];
+
+            /* clear interval (stop timer) when we've reached
+             * the number of iterations allowed.
+             */
+            if (iterations >= 2) {
+                clearInterval(interval);
+            } else {
+                /* increment current index in order to get next image
+                 * when this function gets called again.
+                 */
+                index++;
+            }
+        }
+
+        // update first image
+        updateImage();
+
+        // initiate timer
+        var interval = setInterval(updateImage, 5000);
+    </script>
+{% endblock %}

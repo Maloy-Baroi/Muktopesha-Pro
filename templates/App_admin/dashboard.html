@@ -1,0 +1,127 @@
+{% extends 'App_admin/basement.html' %}
+{% block admin_base_main %}
+    <div class="app-main__inner">
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-disk icon-gradient bg-mean-fruit">
+                        </i>
+                    </div>
+                    <div>Dashboard For Analysis
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-xl-4">
+                <div class="card mb-3 widget-content bg-midnight-bloom">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Total Orders</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white">
+                                <span>{{ total_order.count }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="card mb-3 widget-content bg-arielle-smile">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Total Clients</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white">
+                                <span>{{ total_buyer.count }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="card mb-3 widget-content bg-grow-early">
+                    <div class="widget-content-wrapper text-white">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Total Service Category</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text-white">
+                                <span>{{ total_category.count }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-xl-4">
+                <div class="card mb-3 widget-content">
+                    <div class="widget-content-outer">
+                        <div class="widget-content-wrapper">
+                            <div class="widget-content-left">
+                                <div class="widget-heading">Total Freelancer</div>
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="widget-numbers text-success">
+                                    {{ total_freelancer.count }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="card mb-3 widget-content">
+                    <div class="widget-content-outer">
+                        <div class="widget-content-wrapper">
+                            <div class="widget-content-left">
+                                <div class="widget-heading">Total Group</div>
+                                {#                                <div class="widget-subheading">Revenue streams</div>#}
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="widget-numbers text-warning">
+                                    {{ total_groups.count }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <div class="card mb-3 widget-content">
+                    <div class="widget-content-outer">
+                        <div class="widget-content-wrapper">
+                            <div class="widget-content-left">
+                                <div class="widget-heading">Total Sub category</div>
+                                {#                                <div class="widget-subheading">People Interested</div>#}
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="widget-numbers text-danger">
+                                    {{ total_sub_category.count }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block active_script %}
+    dashboard.classList.add('mm-active');
+    Users.classList.remove('mm-active');
+    freelancerProfiles.classList.remove('mm-active');
+    buyerProfiles.classList.remove('mm-active');
+    jobCategory.classList.remove('mm-active');
+    subCategory.classList.remove('mm-active');
+    allJobs.classList.remove('mm-active');
+    jobOffers.classList.remove('mm-active');
+    groups.classList.remove('mm-active');
+    chat_room.classList.remove('mm-active');
+{% endblock %}

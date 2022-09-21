@@ -1,0 +1,262 @@
+{% extends 'App_main/Buyer/buyerBase.html' %}
+{% block title %}
+    All Jobs
+{% endblock %}
+{% block main %}
+{% load static %}
+<style>
+    .navbar {
+        height: 85px !important;
+        margin-bottom: 100px !important;
+    }
+
+    .single-job-items .job-tittle a h4 {
+        color: #28395a;
+        font-size: 24px;
+        -webkit-transition: .4s;
+        -moz-transition: .4s;
+        -o-transition: .4s;
+        transition: .4s;
+    }
+
+    .small-section-tittle h4 {
+        color: #28395a;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    .post-details2 ul li {
+        list-style-type: circle;
+    }
+    table {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+        margin: 50px auto;
+        padding: 0;
+        width: 100%;
+        table-layout: fixed;
+        }
+        
+        table tr {
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        padding: .35em;
+        }
+        
+        table th,
+        table td {
+        padding: .625em;
+        text-align: center;
+        font-size: 14px;
+        }
+        
+        table th {
+        font-size: .60em;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        }
+        
+        @media screen and (max-width: 600px) {
+        table {
+            border: 0;
+        }
+        
+        table caption {
+            font-size: 1.3em;
+        }
+        
+        table thead {
+            border: none;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+        
+        table tr {
+            border-bottom: 3px solid #ddd;
+            display: block;
+            margin-bottom: .625em;
+        }
+        
+        table td {
+            border-bottom: 1px solid #ddd;
+            display: block;
+            font-size: .8em;
+            text-align: right;
+        }
+        
+        table td::before {
+            /*
+            * aria-label has no advantage, it won't be read inside a table
+            content: attr(aria-label);
+            */
+            content: attr(data-label);
+            float: left;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        table td:last-child {
+            border-bottom: 0;
+        }
+        }
+
+        .btn-send-offer {
+        background-color: #35fbff;
+        border-radius: 0;
+        }
+
+        .offer-form {
+        display: none;
+        }
+
+    .post-details3 {
+    padding: 30px 30px 30px 30px;
+    border: 1px solid #ededed;
+    }
+</style>
+<div class="job-post-company pt-120 pb-120">
+    <div class="container">
+        <div class="row justify-content-between">
+            <!-- Left Content -->
+            <div class="col-xl-7 col-lg-8">
+                <!-- job single -->
+                <div class="single-job-items mb-50">
+                    <div class="job-items">
+                        <div class="job-tittle text-center">
+                            <a href="#" style="pointer-events: none; text-decoration: none;">
+                                <h4>{{ job.job_title }}</h4>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                  <!-- job single End -->
+               
+                <div class="job-post-details">
+                    <div class="post-details1 mb-50">
+                        <!-- Small Section Tittle -->
+                        <div class="small-section-tittle">
+                            <h4>Job Description</h4>
+                        </div>
+                        <p>{{ job.work_description }}</p>
+                    </div>
+                    <div class="post-details2  mb-50">
+                         <!-- Small Section Tittle -->
+                        <div class="small-section-tittle">
+                            <h4>Required Knowledge, Skills, and Abilities</h4>
+                        </div>
+                       <article>
+                        {{ job.required_skills }}
+                       </article>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Right Content -->
+            <div class="col-xl-4 col-lg-4">
+                <div class="post-details3  mb-50">
+                    <!-- Small Section Tittle -->
+                   <div class="small-section-tittle">
+                       <h4>Job Overview</h4>
+                   </div>
+                  <ul>
+                      <li>Posted date : <span>{{ job.created_at.date }}</span></li>
+                      <li>Freelancer : <span>{{ job.stars_needed }} Star</span></li>
+                      <li>Category :  <span>{{ job.sub_category.category.name }}</span></li>
+                      <li>Submitted Budget : <span>${{ job.budget }}</span></li>
+                  </ul>
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+<div class="container" id="table_container">
+    <legend class="text-center text-danger text-bold">
+        Table of Applicants
+    </legend>
+    <input id="id-search" type="text" class="form-control" onkeyup="searchFunction()"
+        placeholder="Search with Name">
+    <table id="id_freelancer_table">
+        <thead>
+          <tr>
+            <th scope="col">Date of Publish</th>
+            <th scope="col">Date of Application</th>
+            <th scope="col">Freelancer</th>
+            <th scope="col">Offer Text</th>
+            <th scope="col">Raction</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for offer in offers %} 
+                {% if offer.job.status == 'Submitted' or offer.offer_status == 'Approved' %}
+                
+                {% else %}
+                    <tr>
+                        <td data-label="Date of Publish">
+                            {{ offer.job.created_at.date }} <br>
+                            {{ offer.job.created_at.time }}
+                        </td>
+                        <td data-label="Date of Apllication">
+                            {{ offer.offer_sended_at.date }} <br>
+                            {{ offer.offer_sended_at.time }}
+                        </td>
+                        <td data-label="Freelancer">
+                            <a href="{% url 'App_main:freelancer-profile-view-by-buyer' id=offer.user.id jobID=offer.job.id %}"
+                                target="_blank">
+                                {{ offer.user }}
+                            </a>
+                        </td>
+                        <td data-label="Offer Text">
+                            {{ offer.offer_text }}
+                        </td>
+                        <td data-label="Reaction">
+                            <a href="{% url 'App_main:offer-accepted-by-buyer' offer_id=offer.id job_id=offer.job.id  %}" 
+                            id="offer-Accepted" class="btn btn-primary" 
+                            onmouseover="document.getElementById('offer-Accepted').style.backgroundColor='green';"
+                            onmouseout="document.getElementById('offer-Accepted').style.backgroundColor='#0d6efd';">
+                                Offer Accepted
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+
+<script>
+    function searchFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("id-search");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("id_freelancer_table");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+{% endblock %}

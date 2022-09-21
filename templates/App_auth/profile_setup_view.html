@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% load crispy_forms_filters %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profile Setup</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <style>
+        body {
+            background-image: url("{% static 'images/profile_setup_bg.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .form-container-row {
+            background-color: #8b92dd;
+            opacity: 0.9;
+        }
+
+        label {
+            color: #000 !important;
+        }
+
+        div.form-group {
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <section class="h-100 gradient-form">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-xl-10">
+                    <div class="card rounded-3 text-black">
+                        <div class="row g-0 form-container-row">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-10">
+                                <div class="card-body p-md-5 mx-md-4">
+
+                                    <div class="text-center">
+                                        <h4 class="mt-1 mb-3 pb-1">We are welcoming you the Developer Team</h4>
+                                    </div>
+                                    <form class="form-group" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <p class="text-center">Please complete your profile</p>
+                                        <fieldset class="form-group">
+                                            {{ form|crispy }}
+                                        </fieldset>
+                                        <div class="text-center pt-1 mb-5 pb-1">
+                                            <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
+                                                    type="submit">
+                                                Signup
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+</body>
+</html>
